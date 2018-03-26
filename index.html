@@ -5,8 +5,51 @@
   </head>
   <body>
     <main id="main">
+      <a href = "#" onclick = 'getRepositories()'>Get Repositories </a>
+      <div id = 'repositories'>
+        <h3>Using Handlebars template</h3>
+        <div id = 'handlebars-repositories'>
+        </div>
+        <h3>Using Lodash template</h3>
+        <div id = 'lodash-repositories'>
+        </div>
+      </div>
     </main>
     <script src="handlebars.js"></script>
+    <script src='lodash.js'></script>
     <script src="index.js"></script>
+    <script id = 'repository-template' type = 'text/x-handlebars-template'>
+      <ul>
+        {{#each this}}
+        <li>
+          <h2><a href="{{html_url}}">{{name}}</a></h2>
+          {{> authorPartial owner}}
+          <p>Watchers: {{watchers_count}}</p>
+          <p>Forks: {{forks_count}}</p>
+          <p>Issues: {{open_issues_count}}</p>
+        </li>
+        {{/each}}
+      </ul>
+    </script>
+
+    <script id="author-partial-template" type="text/x-handlebars-template">
+      <section>
+        <header><h4>Created By {{login}}</h4></header>
+        <img src="{{avatar_url}}" height="32" width="32">
+      </section>
+    </script>
+
+    <script id = 'repository-lodash-template' type = 'text/x-lodash-template'>
+      <ul>
+      <% _.each(repos, function(r){ %>
+        <li>
+          <h2><a href="<%- r.html_url %>"><%- r.name %></a></h2>
+          <p>Watchers: <%- r.watchers_count %></p>
+          <p>Forks: <%- r.forks_count %></p>
+          <p>Issues: <%- r.open_issues_count %></p>
+        </li>
+      <%}) %>
+      </ul>
+    </script>
   </body>
 </html>
